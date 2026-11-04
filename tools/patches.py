@@ -8,6 +8,7 @@ v0.3 : le bas de page (traversées, inclus, transporteurs, quand partir, FAQ, in
 """
 import os
 from sections_fr import SEC_B, SEC_J, SEC_T, SEC_I, SEC_Q, MONTHS_FR_SHORT, MONTHS_FR_CAP, VAN_ICON, BUBBLE_ICON
+from scenery_fr import VAN_HIKER, VAN_CSS, NEW_SHAPES, LENGTHS, FOOT_CAMP_NEW, TABLE_VAN
 
 _BASE = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "base", "fold-line-v7.html"),
              encoding="utf-8").read()
@@ -43,6 +44,17 @@ PATCHES = [
     ('y=t=>x.cats[z(t.days)]', 'y=t=>x.cats[t.cat||z(t.days)]'),
     # les panneaux sur la table de la section 01
     ('[["1 DAY",-2.9],["2 TO 4 DAYS",0],["5 DAYS AND OVER",2.9]]', '[["PAR LA MER",-2.9],["PAR LE DÉTROIT",0],["TOUTE LA ROUTE",2.9]]'),
+
+    # ---- v0.4 · Décors : la camionnette à la place du randonneur, ferry, rocher, maisons (tools/scenery_fr.py)
+    (_between('function R(){const t=document.createElement("div");t.className="hk"', 'window.SECTIONS={', include_end=False), VAN_HIKER),
+    ('.hk .sh{fill:rgba(0,0,0,0.38);stroke:none;}', VAN_CSS),
+    ('const d={hill:(e,l,t)=>{', NEW_SHAPES + 'hill:(e,l,t)=>{'),
+] + [tuple(x) for x in LENGTHS] + [
+    # le rocher de Gibraltar : plus large que haut
+    ('x:o*.4,z:-2.35,w:1.9,h:2.8,col:"#8C6A2C",shape:d.rock', 'x:o*.4,z:-2.35,w:2.7,h:1.9,col:"#8C6A2C",shape:d.rock'),
+    # la camionnette en papier sur la table, à la place du randonneur
+    (_between('function Ao(e){return function(t,o,n,l){', '}}const Tt=[],fe=.014;', include_end=False), TABLE_VAN),
+    (_between('<div class="fx-camp" aria-hidden="true"><svg viewBox="0 0 220 90">', '</svg></div>'), FOOT_CAMP_NEW),
 
     # ---- 04 · Quand partir (sections/when.js)
     ('f=["January","February","March","April","May","June","July","August","September","October","November","December"]', 'f=' + MONTHS_FR_CAP),

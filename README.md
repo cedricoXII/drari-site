@@ -28,6 +28,8 @@ Les deux premiers scripts lisent ETOPO 10' converti en `.npz` (fichier non versi
 
 - v0.3 (commit `033325d`) : bas de page en français (traversées, inclus, transporteurs, quand partir, FAQ, inscription, pied de page). Les cartes des transporteurs sont des exemples vides : pas de faux profils. Les formulaires n'envoient encore rien (ils le disent), et l'adresse email du pied de page est provisoire.
 
+- v0.4 : décors Drari. Le randonneur devient une camionnette chargée (dans la page et sur la table en papier). Section 01 : un ferry sur la mer, le rocher de Gibraltar avec la médina de Tanger et un petit ferry, l'Atlas avec une kasbah. Pied de page : la maison et la camionnette garée.
+
 À faire : brancher l'envoi des formulaires, une vraie adresse email et les vrais comptes, puis la plongée dans le trajet (camionnette à la place du randonneur, ferry). En v0.2, les clés internes des trajets restent celles du template (`tongariro`, `inca`…), pour ne rien casser.
 
 ## Crédits
