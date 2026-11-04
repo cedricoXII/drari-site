@@ -4,9 +4,10 @@ Chaque entrée : (texte d'origine, texte Drari[, nombre d'occurrences attendu]).
 Les apostrophes des textes sont typographiques (’) : beaucoup de textes sont dans des
 chaînes JavaScript entre apostrophes droites.
 v0.2 : l'en-tête, le haut de page (les 5 cartes, le globe, le panneau du trajet) et le menu.
-Le reste de la page est encore celui du template : prochaine étape.
+v0.3 : le bas de page (traversées, inclus, transporteurs, quand partir, FAQ, inscription, pied de page).
 """
 import os
+from sections_fr import SEC_B, SEC_J, SEC_T, SEC_I, SEC_Q, MONTHS_FR_SHORT, MONTHS_FR_CAP, VAN_ICON, BUBBLE_ICON
 
 _BASE = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "base", "fold-line-v7.html"),
              encoding="utf-8").read()
@@ -32,9 +33,94 @@ BRAND_MARK = (
 )
 
 PATCHES = [
-    # ---- Photos des guides : servies par ce dépôt (adresse injectée par la page Aura)
-    ("https://cdn.jsdelivr.net/gh/Sam1983Aing/aura-assets@1.18.0/foldline/guides/", "__DRARI_BASE__guides/"),
-    ("https://raw.githubusercontent.com/Sam1983Aing/aura-assets/1.18.0/foldline/guides/", "__DRARI_RAW__guides/"),
+    # ---- Bas de page, sections/sections.js : fonctions remplacées en entier (avant tout autre remplacement)
+    (_between('function B(){const t={day:[],multi:[],exp:[]};', 'function j(){', include_end=False), SEC_B),
+    (_between('function j(){', 'const T=[{key:"tongariro"', include_end=False), SEC_J),
+    (_between('const T=[{key:"tongariro"', ',D="#1B2230";function W(', include_end=False), SEC_T),
+    (_between('function I(){const t=[-2.2,1.6,-1.2,2.4,1.8,-2.6,1.1,-1.6],', 'function P(){const t=window.WHEN_STOP', include_end=False), SEC_I),
+    (_between('function Q(){const t=f.map(i=>r(v(i.high.name)', 'function C(){if(window.BOOK_STOP)', include_end=False), SEC_Q),
+    # la famille d'un trajet : lue dans les données (cat)
+    ('y=t=>x.cats[z(t.days)]', 'y=t=>x.cats[t.cat||z(t.days)]'),
+    # les panneaux sur la table de la section 01
+    ('[["1 DAY",-2.9],["2 TO 4 DAYS",0],["5 DAYS AND OVER",2.9]]', '[["PAR LA MER",-2.9],["PAR LE DÉTROIT",0],["TOUTE LA ROUTE",2.9]]'),
+
+    # ---- 04 · Quand partir (sections/when.js)
+    ('f=["January","February","March","April","May","June","July","August","September","October","November","December"]', 'f=' + MONTHS_FR_CAP),
+    ('season:e.seasonShort', 'season:e.seasonLabel||e.seasonShort'),
+    ('r.name+": "+r.season+". Not outside it: "+r.avoid.replace(/"/g,"")', 'r.name+" : "+r.season+". En dehors : "+r.avoid.replace(/"/g,"")'),
+    ('<span>Today</span>', '<span>Aujourd’hui</span>'),
+    ('f[d]+": "+(i.length?i.join(" and ")+(i.length>1?" are":" is")+" in season.":"nothing in season, a good month to plan.")',
+     'f[d]+" : "+(i.length?(i.length===e.length?"tous les trajets sont en période calme.":i.join(" et ")+(i.length>1?" sont":" est")+" en période calme."):"haute saison, réserve tôt.")'),
+    ('(n%2?1.2:-1.2)+\'deg">\'+r+"</b>").join("")', '(n%2?1.2:-1.2)+\'deg">\'+' + MONTHS_FR_SHORT + '[n]+"</b>").join("")'),
+    ('kick:"When to go",eyebrow:"When to go",flow:!0,cls:"wopt wo-ribbons",title:["Every trek keeps","<em>its own calendar.</em>"],lede:"These are the months we run each one. Outside them we leave the mountain alone, for snow, for rain or for the monsoon."',
+     'kick:"Quand partir",eyebrow:"Quand partir",flow:!0,cls:"wopt wo-ribbons",title:["Chaque trajet","<em>a son calendrier.</em>"],lede:"Les bandes montrent les mois les plus calmes. L’été, la diaspora rentre au pays : les ports sont pleins, réserve tôt."'),
+
+    # ---- 05 · FAQ (sections/faq.js) : la carte et ses épingles sur les destinations
+    ('const f=(t.waypoints||[])[0]||{},p=e.catOf(t)', 'const f=(t.waypoints||[]).slice(-1)[0]||{},p=e.catOf(t)'),
+    ('d=t=>t.group.min+" to "+t.group.max', 'd=t=>t.group.min+" à "+t.group.max'),
+    ('kick:"Ready for it?",eyebrow:"Ready for it?",flow:!0,cls:"faqmap",title:["How hard,","<em>how high.</em>"],lede:"None of the five needs climbing gear in season. All of them need legs that have done a few long days first."',
+     'kick:"Des questions ?",eyebrow:"Des questions ?",flow:!0,cls:"faqmap",title:["Combien,","<em>comment, quand.</em>"],lede:"Les questions qu’on nous pose le plus, côté transporteurs et côté familles."'),
+
+    # ---- Inscription (sections/book.js) : le ticket du transporteur
+    ('m=["January","February","March","April","May","June","July","August","September","October","November","December"]', 'm=' + MONTHS_FR_CAP),
+    ('on:c.months(t.seasonShort)', 'on:c.months("Jan to Dec")'),
+    ('mo:e>=0?m[e]:"Any month"', 'mo:e>=0?m[e]:"Tous les mois"'),
+    ('a.title=s?m[o]:m[o]+": not in season, we leave the mountain alone"', 'a.title=m[o]'),
+    ('!n.name||!/.+@.+\\..+/.test(n.mail)', '!n.name||!/.+@.+\\..+|^[+0-9 ().-]{8,}$/.test(n.mail)'),
+    ('We need a name and an email to write back to.', 'Il nous faut ton prénom, et un email ou un téléphone pour te répondre.', 2),
+    ('"Thanks, "+n.name.split(" ")[0]+". We write back about the "+i.full+(n.m>=0?" in "+m[n.m]:"")+" within two working days, with dates, a price and your map."',
+     '"Merci, "+n.name.split(" ")[0]+". Ton ticket "+i.full+(n.m>=0?" en "+m[n.m].toLowerCase():"")+" est prêt. Version de test : rien n’est encore envoyé."'),
+    ('aria-label="\'+o+(o===1?" walker":" walkers")', 'aria-label="\'+o+(o===1?" départ par mois":" départs par mois")'),
+    (_between('D=\'<svg viewBox="0 0 24 40" aria-hidden="true"><circle cx="12" cy="5" r="4.2"/>', '</svg>\';function h(){'),
+     "D='" + VAN_ICON + "';function h(){"),
+    ('c.MON.map((o,s)=>\'<button type="button" data-mo="\'+s+\'" aria-label="\'+m[s]+\'"><span>\'+o+"</span></button>")',
+     'c.MON.map((o,s)=>\'<button type="button" data-mo="\'+s+\'" aria-label="\'+m[s]+\'"><span>\'+' + MONTHS_FR_SHORT + '[s]+"</span></button>")'),
+    ('<p class="bt-top"><span>Fold Line</span><span>Walker’s ticket</span>', '<p class="bt-top"><span>Drari</span><span>Ticket transporteur</span>'),
+    ('<p class="bo-lab" id="btTrek">Trek</p>', '<p class="bo-lab" id="btTrek">Trajet</p>'),
+    ('<p class="bo-lab" id="btMonth">Month</p>', '<p class="bo-lab" id="btMonth">Mois de départ</p>'),
+    ('<p class="bo-lab" id="btWalk">Walkers</p>', '<p class="bo-lab" id="btWalk">Départs par mois</p>'),
+    ('<label class="bo-in"><span>Your name</span>', '<label class="bo-in"><span>Ton prénom</span>'),
+    ('<label class="bo-in"><span>Email</span><input name="email" type="email" autocomplete="email" spellcheck="false"></label>',
+     '<label class="bo-in"><span>Email ou téléphone</span><input name="email" type="text" autocomplete="email" spellcheck="false"></label>'),
+    ('data-again>Punch another ticket</button>', 'data-again>Refaire un ticket</button>'),
+    ('aria-label="Tear off the stub to send the enquiry"', 'aria-label="Détache le talon pour envoyer ton inscription"'),
+    ('<span class="bt-l bt-lm"><em>Month</em><i data-f="mo">Any month</i></span>', '<span class="bt-l bt-lm"><em>Mois</em><i data-f="mo">Tous les mois</i></span>'),
+    ('<span class="bt-l bt-lw"><em>Walkers</em><i data-f="n">2</i></span>', '<span class="bt-l bt-lw"><em>Départs</em><i data-f="n">2</i></span>'),
+    ('<span class="bt-l"><em>From</em><i>USD <i data-f="est">\'+L(a.price*2)+\'</i></i></span>', '<span class="bt-l"><em>Inscription</em><i>Gratuite</i></span>'),
+    ('Tear here to send</span>', 'Détache ici pour envoyer</span>'),
+    ('kick:"Book",eyebrow:"Your turn",flow:!0,cls:"bopt bo-ticket",title:["Pick a map.","<em>We do the folding.</em>"],lede:"Punch in the trek, the month and how many of you. Tear off the stub and we write back within two working days."',
+     'kick:"Inscription",eyebrow:"À toi",flow:!0,cls:"bopt bo-ticket",title:["Inscris ton trajet.","<em>C’est gratuit.</em>"],lede:"Choisis ton trajet, tes mois de départ et combien de fois tu pars. Laisse ton prénom et un moyen de te joindre, puis détache le talon."'),
+    ('i("name","Ana Ruiz"),await b(250),await i("email","ana@example.com")', 'i("name","Karim"),await b(250),await i("email","karim@exemple.fr")'),
+
+    # ---- Pied de page (sections/footer.js)
+    ('C={tongariro:"Pacific/Auckland",inca:"America/Lima",torres:"America/Punta_Arenas",kili:"Africa/Dar_es_Salaam",everest:"Asia/Kathmandu"}',
+     'C={tongariro:"Africa/Tunis",inca:"Africa/Algiers",torres:"Africa/Casablanca",kili:"Africa/Casablanca",everest:"Africa/Casablanca"}'),
+    ('F="hello@foldline.example",z="@foldline"', 'F="bonjour@drari.example",z="@drari"'),
+    (_between('strava:\'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15 L10.2 4 L15.4 15"', "</svg>'},S=[{k:\"instagram\""),
+     "strava:'" + BUBBLE_ICON + "'},S=[{k:\"instagram\""),
+    ('S=[{k:"instagram",name:"Instagram",line:"Trail days, every day",c:"#D2A23A"},{k:"youtube",name:"YouTube",line:"The five walks, filmed end to end",c:"#D63B2F"},{k:"tiktok",name:"TikTok",line:"Sixty seconds on a ridge",c:"#5B8FC4"},{k:"strava",name:"Strava",line:"Our guides’ routes, live in season",c:"#5E8C61"}]',
+     'S=[{k:"instagram",name:"Instagram",line:"Les départs de la semaine",c:"#D2A23A"},{k:"youtube",name:"YouTube",line:"Les trajets, filmés de bout en bout",c:"#D63B2F"},{k:"tiktok",name:"TikTok",line:"Une traversée en 60 secondes",c:"#5B8FC4"},{k:"strava",name:"WhatsApp",line:"Le groupe des transporteurs",c:"#5E8C61"}]'),
+    ('aria-label="Fold Line on \'+e.name+\' (placeholder)"', 'aria-label="Drari sur \'+e.name+\' (compte à créer)"'),
+    ('const n=(e.waypoints||[])[0];return\'<li data-tz="', 'const n=(e.waypoints||[]).slice(-1)[0];return\'<li data-tz="'),
+    ('<p class="fx-k">Fold Line post</p><h3>A map in your inbox, <em>once a month.</em></h3><p class="fx-p">One trek, folded into an email: the route, the season that is opening and a note from a guide on the trail. Nothing else. We are mostly outside.</p>',
+     '<p class="fx-k">Le courrier Drari</p><h3>Les nouveaux trajets, <em>une fois par mois.</em></h3><p class="fx-p">Un email par mois : les transporteurs qui arrivent, les trajets qui ouvrent et les dates à retenir. Rien d’autre.</p>'),
+    ('placeholder="your@email" aria-label="Your email"', 'placeholder="ton@email" aria-label="Ton email"'),
+    ('<button type="submit">Send me maps<i aria-hidden="true">→</i></button>', '<button type="submit">Recevoir les trajets<i aria-hidden="true">→</i></button>'),
+    ('<span>Fold Line<br>post</span>', '<span>Courrier<br>Drari</span>'),
+    ('toLocaleDateString("en-GB",{day:"2-digit",month:"short"})', 'toLocaleDateString("fr-FR",{day:"2-digit",month:"short"})'),
+    ('<em>Follow the walks</em><b>\'+z+\', everywhere</b>', '<em>Suis les trajets</em><b>\'+z+\', partout</b>'),
+    ('<p class="fx-h">Follow the walks</p>', '<p class="fx-h">Suis les trajets</p>'),
+    ('<p class="fx-h">Right now at the trailheads</p>', '<p class="fx-h">En ce moment, à l’arrivée</p>'),
+    ('aria-label="Fold Line">\'+y("Fold","a")+y("Line","b")', 'aria-label="Bon trajet">\'+y("Bon","a")+y("trajet","b")'),
+    ('<p>End of the trail. Camp is up, the fire is lit.</p>', '<p>Fin du trajet. Tout le monde est bien arrivé.</p>'),
+    ('>Back to the trailhead<i', '>Retour au départ<i'),
+    ('<p class="fx-h">Talk to us</p>', '<p class="fx-h">Nous écrire</p>'),
+    ('<p>We answer within two working days, from Ōhakune, New Zealand, where the first map was folded.</p>',
+     '<p>Une question, une idée de trajet, un souci ? Écris-nous.</p>'),
+    ('"That email does not look right yet."', '"Cet email n’a pas l’air bon."'),
+    ('"Stamped. Your first map lands on the first of the month."', '"Merci ! Version de test : l’envoi n’est pas encore branché."'),
+    ('"In season":"Out of season"', '"Mois calme":"Haute saison"'),
+    ('"Open now, Mon to Fri, 8 to 6 NZ time":"Closed now. Mon to Fri, 8 to 6 NZ time"', '"Lancement en cours":"Lancement en cours"'),
 
     # ---- <head>
     ('<html lang="en" class="hero-on" data-hero="fold">', '<html lang="fr" class="hero-on" data-hero="fold">'),
@@ -58,7 +144,7 @@ PATCHES = [
 
     # ---- Menu
     ('const p=[{i:-1,label:"Treks",short:"Treks"},{i:0,label:"Lengths",short:"Lengths"},{i:1,label:"Included",short:"Included"},{i:2,label:"Guides",short:"Guides"},{i:3,label:"When to go",short:"When"},{i:4,label:"FAQ",short:"FAQ"},{i:5,label:"Book",short:"Book",chip:!0}]',
-     'const p=[{i:-1,label:"Trajets",short:"Trajets"},{i:0,label:"Envois",short:"Envois"},{i:1,label:"Inclus",short:"Inclus"},{i:2,label:"Transporteurs",short:"Transp."},{i:3,label:"Quand partir",short:"Quand"},{i:4,label:"FAQ",short:"FAQ"},{i:5,label:"Inscription",short:"Inscription",chip:!0}]'),
+     'const p=[{i:-1,label:"Trajets",short:"Trajets"},{i:0,label:"Traversées",short:"Traversées"},{i:1,label:"Inclus",short:"Inclus"},{i:2,label:"Transporteurs",short:"Transp."},{i:3,label:"Quand partir",short:"Quand"},{i:4,label:"FAQ",short:"FAQ"},{i:5,label:"Inscription",short:"Inscription",chip:!0}]'),
     ('aria-label="Sections, now Treks"><b>00</b><span>Treks</span>', 'aria-label="Sections, ici Trajets"><b>00</b><span>Trajets</span>'),
     ('Sections, now ', 'Sections, ici '),
 
@@ -97,7 +183,7 @@ PATCHES = [
     ('aria-label="Featured treks"', 'aria-label="Les trajets"'),
     ('aria-label="Previous trek"', 'aria-label="Trajet précédent"'),
     ('aria-label="Next trek"', 'aria-label="Trajet suivant"'),
-    ('d.hint="Scroll down for lengths, guides and dates"', 'd.hint="Fais défiler : envois, transporteurs et dates"'),
+    ('d.hint="Scroll down for lengths, guides and dates"', 'd.hint="Fais défiler : traversées, transporteurs et dates"'),
     ('d.tip="Swipe or tap a number to turn the table"', 'd.tip="Glisse ou touche un numéro pour tourner la table"'),
     # le grand chiffre du panneau : la distance (ou la durée du ferry) au lieu de l'altitude
     ('const Uo=e=>zt(xe[e].summit.m)', 'const Uo=e=>ce[e]&&ce[e].big?ce[e].big:zt(xe[e].summit.m)'),

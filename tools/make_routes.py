@@ -52,7 +52,7 @@ ROUTES = [
         ],
         "season": {"best": "Hors vacances d'été, les ferries sont moins chargés.",
                    "avoid": "Les vacances d'été et les fêtes, quand toute la diaspora rentre en même temps."},
-        "seasonShort": "Oct to May",
+        "seasonShort": "Oct to May", "seasonLabel": "OCT. À MAI",
         "facts": [
             "La traversée Marseille - Tunis dure de 22 à 26 heures selon le navire (Ferryhopper).",
             "Deux compagnies tiennent la ligne : Corsica Linea et CTN (Ferryhopper).",
@@ -86,7 +86,7 @@ ROUTES = [
         ],
         "season": {"best": "Hors vacances d'été, les ferries sont moins chargés.",
                    "avoid": "Les vacances d'été et les fêtes, quand toute la diaspora rentre en même temps."},
-        "seasonShort": "Oct to May",
+        "seasonShort": "Oct to May", "seasonLabel": "OCT. À MAI",
         "facts": [
             "La traversée Marseille - Oran dure de 28 à 29 heures (aFerry).",
             "Une seule compagnie tient la ligne : Algérie Ferries (aFerry).",
@@ -120,7 +120,7 @@ ROUTES = [
              "Algésiras - Tanger Med : 1 h 30 de traversée (DFDS)."),
         ],
         "season": {"best": "D'octobre à mai, hors fêtes : moins d'attente au port.", "avoid": MARHABA},
-        "seasonShort": "Oct to May",
+        "seasonShort": "Oct to May", "seasonLabel": "OCT. À MAI",
         "facts": [
             "Paris - Algésiras : 1 914 km, environ 17 heures de conduite (planderoute.net).",
             "Algésiras - Tanger Med : 1 h 30 de traversée (DFDS).",
@@ -156,7 +156,7 @@ ROUTES = [
              "Almería - Nador : de 7 à 11 heures de traversée selon la compagnie (Ferryhopper)."),
         ],
         "season": {"best": "D'octobre à mai, hors fêtes : moins d'attente au port.", "avoid": MARHABA},
-        "seasonShort": "Oct to May",
+        "seasonShort": "Oct to May", "seasonLabel": "OCT. À MAI",
         "facts": [
             "Bruxelles - Almería : 2 150 km, environ 19 h 40 de conduite (planderoute.net).",
             "Almería - Nador : de 7 à 11 heures de traversée selon la compagnie (Ferryhopper).",
@@ -194,7 +194,7 @@ ROUTES = [
              "Tanger - Agadir : 791 km, environ 8 heures de route (distancede.com)."),
         ],
         "season": {"best": "D'octobre à mai, hors fêtes : moins d'attente au port.", "avoid": MARHABA},
-        "seasonShort": "Oct to May",
+        "seasonShort": "Oct to May", "seasonLabel": "OCT. À MAI",
         "facts": [
             "Amsterdam - Algésiras : 2 428 km, environ 22 h 40 de conduite (1map.com).",
             "Tanger - Agadir : 791 km, environ 8 heures de route (distancede.com).",
@@ -269,7 +269,7 @@ def main(npz_path, out_path):
             "nights": [dict(x, m=0) for x in r["nights"]],
             "beats": [{"key": b[0], "name": b[1], "m": 0, "day": i + 1, "line": b[2], "fact": b[3]}
                       for i, b in enumerate(r["beats"])],
-            "season": r["season"], "seasonShort": r["seasonShort"],
+            "season": r["season"], "seasonShort": r["seasonShort"], "seasonLabel": r["seasonLabel"],
             "permits": PERMITS, "price": {"low": 0, "high": 0}, "group": {"min": 1, "max": 12},
             "facts": r["facts"], "kit": KIT, "line": r["line"],
             "marks": [dict({"label": m[0], "lat": m[1], "lon": m[2]}, **({"red": True, "sub": m[3]} if m[3] else {}))
