@@ -26,7 +26,7 @@ Les deux premiers scripts lisent ETOPO 10' converti en `.npz` (fichier non versi
 - v0.1 (commit `3d2c35a`) : copie du template Fold Line, telle quelle.
 - v0.2 (commit `7a16baa`) : haut de page Drari, en français. Les 5 cartes deviennent 5 trajets (Marseille → Tunis, Marseille → Oran, Paris → Tanger, Bruxelles → Nador, Amsterdam → Agadir), avec leur vrai relief. Le globe pointe les destinations. La plongée dans l'épingle est coupée pour l'instant. Le bas de page est encore celui du template, en anglais.
 
-- v0.3 : bas de page en français (traversées, inclus, transporteurs, quand partir, FAQ, inscription, pied de page). Les cartes des transporteurs sont des exemples vides : pas de faux profils. Les formulaires n'envoient encore rien (ils le disent), et l'adresse email du pied de page est provisoire.
+- v0.3 (commit `033325d`) : bas de page en français (traversées, inclus, transporteurs, quand partir, FAQ, inscription, pied de page). Les cartes des transporteurs sont des exemples vides : pas de faux profils. Les formulaires n'envoient encore rien (ils le disent), et l'adresse email du pied de page est provisoire.
 
 À faire : brancher l'envoi des formulaires, une vraie adresse email et les vrais comptes, puis la plongée dans le trajet (camionnette à la place du randonneur, ferry). En v0.2, les clés internes des trajets restent celles du template (`tongariro`, `inca`…), pour ne rien casser.
 
