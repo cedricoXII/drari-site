@@ -4,19 +4,32 @@ Le site de Drari : les petits transporteurs Europe-Maghreb et les familles de la
 
 ## Comment ça marche
 
-- Le projet « Drari » dans Aura contient une petite page de chargement.
-- Cette page va chercher `index.html` dans ce dépôt, à une version précise (un tag, par exemple `v0.1.0`), puis l'affiche à sa place.
+- Le projet « Drari » dans Aura contient une petite page de chargement (copie dans `aura/index.html`).
+- Cette page va chercher `index.html` dans ce dépôt, à une version précise (un tag, par exemple `v0.2.0`), puis l'affiche à sa place.
 - Elle passe par jsDelivr, et par GitHub en secours.
 - Dans `index.html`, `__DRARI_BASE__` et `__DRARI_RAW__` sont remplacés par l'adresse de ce dépôt au moment du chargement.
 
-Pour mettre en ligne une nouvelle version : créer un nouveau tag ici, puis changer le tag dans la page Aura.
+Pour mettre en ligne une nouvelle version : créer un nouveau tag ici, puis changer `TAG` dans la page Aura.
+
+## Construire
+
+`index.html` est fabriqué, il ne se modifie pas à la main :
+
+1. `tools/make_routes.py` écrit `data/treks-data.js` (les 5 trajets, textes et sources en tête du fichier).
+2. `tools/make_terrain.py` écrit `data/terrain-data.js` (le relief des 5 cartes, d'après ETOPO).
+3. `tools/build.py` part du template (`base/fold-line-v7.html`), y met les données et applique les remplacements de `tools/patches.py`.
+
+Les deux premiers scripts lisent ETOPO 10' converti en `.npz` (fichier non versionné, 45 Mo à l'origine).
 
 ## Versions
 
 - `v0.1.0` : copie du template Fold Line, telle quelle. Les photos des guides sont hébergées ici.
+- `v0.2.0` : haut de page Drari, en français. Les 5 cartes deviennent 5 trajets (Marseille → Tunis, Marseille → Oran, Paris → Tanger, Bruxelles → Nador, Amsterdam → Agadir), avec leur vrai relief. Le globe pointe les destinations. La plongée dans l'épingle est coupée pour l'instant. Le bas de page est encore celui du template, en anglais.
+
+À faire : les sections du bas (envois, inclus, transporteurs, quand partir, FAQ, inscription), puis la plongée dans le trajet (camionnette, ferry). En v0.2, les clés internes des trajets restent celles du template (`tongariro`, `inca`…), pour ne rien casser.
 
 ## Crédits
 
 - Base : template « Fold Line » de Sam (samaing1983), sur Aura, inclus dans l'abonnement Pro.
 - Three.js (licence MIT), GSAP et ScrollTrigger (licence standard GSAP), Lenis.
-- Tracés : OpenStreetMap. Reliefs : AWS Terrain Tiles.
+- Reliefs des trajets : ETOPO 10' (NOAA, domaine public). Tracés du template : OpenStreetMap ; reliefs du template : AWS Terrain Tiles.

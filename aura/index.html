@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Drari</title>
+<meta name="description" content="Drari relie les transporteurs Europe-Maghreb et les familles de la diaspora." />
+<!-- Drari : page de chargement du projet Aura.
+     Le site complet pèse plus de 2 Mo, alors qu'Aura garde au plus 1 Mo de HTML.
+     Cette page va donc chercher le site dans le dépôt GitHub cedricoXII/drari-site, à la version TAG,
+     puis l'affiche à sa place.
+     Pour mettre en ligne une nouvelle version : changer TAG ci-dessous.
+     Ne pas modifier avec le chat d'Aura : il ne voit que cette petite page, pas le site. -->
+<style>
+html,body{margin:0;min-height:100%;background:#0A1019;}
+html.fl-dive,html.fl-dive body{background:radial-gradient(120% 120% at 46% 42%,#E2563F 0%,#CF3E2D 45%,#A72C21 100%);}
+.dr-msg{position:fixed;inset:0;display:grid;place-items:center;margin:0;padding:24px;text-align:center;color:#E9EEF2;font:15px/1.5 system-ui,sans-serif;}
+</style>
+<script>if(/[?&]dive=1(&|$)/.test(location.search))document.documentElement.classList.add('fl-dive');</script>
+</head>
+<body>
+<script>
+(function(){
+  var REPO = 'cedricoXII/drari-site', TAG = 'v0.2.0';
+  var BASES = [
+    'https://cdn.jsdelivr.net/gh/' + REPO + '@' + TAG + '/',
+    'https://raw.githubusercontent.com/' + REPO + '/' + TAG + '/'
+  ];
+  function show(i){
+    if(i >= BASES.length){
+      document.documentElement.className = '';
+      document.body.innerHTML = '<p class="dr-msg">Le site n’a pas pu se charger. Vérifie la connexion et recharge la page.</p>';
+      return;
+    }
+    fetch(BASES[i] + 'index.html')
+      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
+      .then(function(h){
+        if(h.indexOf('data-hero="fold"') < 0) throw new Error('page inattendue');
+        h = h.split('__DRARI_BASE__').join(BASES[i]).split('__DRARI_RAW__').join(BASES[1]);
+        document.open(); document.write(h); document.close();
+      })
+      .catch(function(){ show(i + 1); });
+  }
+  show(0);
+})();
+</script>
+<noscript><p class="dr-msg">Ce site a besoin de JavaScript.</p></noscript>
+</body>
+</html>
