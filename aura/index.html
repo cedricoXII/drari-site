@@ -7,9 +7,9 @@
 <meta name="description" content="Drari relie les transporteurs Europe-Maghreb et les familles de la diaspora." />
 <!-- Drari : page de chargement du projet Aura.
      Le site complet pèse plus de 2 Mo, alors qu'Aura garde au plus 1 Mo de HTML.
-     Cette page va donc chercher le site dans le dépôt GitHub cedricoXII/drari-site, à la version TAG,
-     puis l'affiche à sa place.
-     Pour mettre en ligne une nouvelle version : changer TAG ci-dessous.
+     Cette page va donc chercher le site dans le dépôt GitHub cedricoXII/drari-site, à la version VERSION
+     (le numéro d'un commit), puis l'affiche à sa place.
+     Pour mettre en ligne une nouvelle version : mettre le numéro du nouveau commit dans VERSION.
      Ne pas modifier avec le chat d'Aura : il ne voit que cette petite page, pas le site. -->
 <style>
 html,body{margin:0;min-height:100%;background:#0A1019;}
@@ -21,10 +21,10 @@ html.fl-dive,html.fl-dive body{background:radial-gradient(120% 120% at 46% 42%,#
 <body>
 <script>
 (function(){
-  var REPO = 'cedricoXII/drari-site', TAG = 'v0.2.0';
+  var REPO = 'cedricoXII/drari-site', VERSION = '7a16baa95128204b03bc320f27c966e9e34f9fd3'; // v0.2
   var BASES = [
-    'https://cdn.jsdelivr.net/gh/' + REPO + '@' + TAG + '/',
-    'https://raw.githubusercontent.com/' + REPO + '/' + TAG + '/'
+    'https://cdn.jsdelivr.net/gh/' + REPO + '@' + VERSION + '/',
+    'https://raw.githubusercontent.com/' + REPO + '/' + VERSION + '/'
   ];
   function show(i){
     if(i >= BASES.length){

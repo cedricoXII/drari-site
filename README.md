@@ -5,11 +5,11 @@ Le site de Drari : les petits transporteurs Europe-Maghreb et les familles de la
 ## Comment ça marche
 
 - Le projet « Drari » dans Aura contient une petite page de chargement (copie dans `aura/index.html`).
-- Cette page va chercher `index.html` dans ce dépôt, à une version précise (un tag, par exemple `v0.2.0`), puis l'affiche à sa place.
+- Cette page va chercher `index.html` dans ce dépôt, à une version précise (le numéro d'un commit), puis l'affiche à sa place.
 - Elle passe par jsDelivr, et par GitHub en secours.
 - Dans `index.html`, `__DRARI_BASE__` et `__DRARI_RAW__` sont remplacés par l'adresse de ce dépôt au moment du chargement.
 
-Pour mettre en ligne une nouvelle version : créer un nouveau tag ici, puis changer `TAG` dans la page Aura.
+Pour mettre en ligne une nouvelle version : mettre le numéro du nouveau commit dans `VERSION`, dans la page Aura.
 
 ## Construire
 
@@ -23,8 +23,8 @@ Les deux premiers scripts lisent ETOPO 10' converti en `.npz` (fichier non versi
 
 ## Versions
 
-- `v0.1.0` : copie du template Fold Line, telle quelle. Les photos des guides sont hébergées ici.
-- `v0.2.0` : haut de page Drari, en français. Les 5 cartes deviennent 5 trajets (Marseille → Tunis, Marseille → Oran, Paris → Tanger, Bruxelles → Nador, Amsterdam → Agadir), avec leur vrai relief. Le globe pointe les destinations. La plongée dans l'épingle est coupée pour l'instant. Le bas de page est encore celui du template, en anglais.
+- v0.1 (commit `3d2c35a`) : copie du template Fold Line, telle quelle. Les photos des guides sont hébergées ici.
+- v0.2 (commit `7a16baa`) : haut de page Drari, en français. Les 5 cartes deviennent 5 trajets (Marseille → Tunis, Marseille → Oran, Paris → Tanger, Bruxelles → Nador, Amsterdam → Agadir), avec leur vrai relief. Le globe pointe les destinations. La plongée dans l'épingle est coupée pour l'instant. Le bas de page est encore celui du template, en anglais.
 
 À faire : les sections du bas (envois, inclus, transporteurs, quand partir, FAQ, inscription), puis la plongée dans le trajet (camionnette, ferry). En v0.2, les clés internes des trajets restent celles du template (`tongariro`, `inca`…), pour ne rien casser.
 
