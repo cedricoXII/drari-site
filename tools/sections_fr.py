@@ -1,53 +1,55 @@
 """Le bas de page Drari : le code JavaScript qui remplace les fonctions de sections/sections.js.
+(v0.5 : 01 « Le métier », 02 « Inclus », 03 « Ta carte » et la FAQ des transporteurs, d'après le fichier des textes.)
 
 Chaque bloc remplace une fonction entière du template (même structure de sortie, textes Drari).
 Les apostrophes sont typographiques (’) : le code est inséré dans du JavaScript minifié.
 Règle : pas de faux transporteurs, pas de faux avis, pas de fausse rareté, chiffres sourcés.
 """
 
-# 01 · Traversées (dans le template : « Three kinds of trek »)
+# v0.5 · 01 · Le métier (remplace « Traversées » : mêmes décors, mêmes 3 cartes, nouveaux textes).
+# Chaque carte porte sa règle et sa source, juste à côté de la phrase qu'elle prouve.
+# Les fonds des étiquettes sont foncés pour qu'un texte crème reste lisible (contraste 4,5:1).
 SEC_B = (
     'function B(){const t={day:[],multi:[],exp:[]};f.forEach(s=>t[s.cat||z(s.days)].push(s));'
     'const R={day:"Une nuit en mer",multi:"2 à 3 jours",exp:"3 à 4 jours"},'
-    'L2={day:"Le van monte sur le ferry à Marseille et sort de l’autre côté de la mer.",'
-    'multi:"La route jusqu’au sud de l’Espagne, puis un ferry court.",'
-    'exp:"L’Europe de haut en bas, le détroit, puis la route au Maroc."},'
-    'X={day:["De 22 à 29 heures de traversée","Départ du port de Marseille","Arrivée à Tunis ou à Oran"],'
-    'multi:["Une ou deux nuits en route","Ferry à Algésiras ou à Almería","Arrivée à Tanger ou à Nador"],'
-    'exp:["Deux ou trois nuits en route","1 h 30 de ferry au détroit","Arrivée dans le Souss"]},'
+    'TB={day:"#3F6B44",multi:"#D2A23A",exp:"#2F5F8F"},'
+    'RU={day:\'<b>La licence :</b> au-dessus de 2,5 t à l’international, la licence communautaire est obligatoire depuis le 21 mai 2022.\','
+    'multi:\'<b>Le toit :</b> depuis le 1<sup>er</sup> décembre 2025, Tanger Med refuse les utilitaires des pros chargés sur le toit. Nador a suivi.\','
+    'exp:\'<b>Le tachygraphe :</b> depuis le 1<sup>er</sup> juillet 2026, il est obligatoire pour les utilitaires de plus de 2,5 t à l’international.\'},'
+    'SR={day:\'Source : <a href="https://eur-lex.europa.eu/eli/reg/2009/1072/2022-02-21/fra" target="_blank" rel="noopener">EUR-Lex, règlement 1072/2009</a>\','
+    'multi:\'Sources : <a href="https://www.bladi.net/tanger-med-bagages-toit-interdits-vehicules-commerciaux,118199.html" target="_blank" rel="noopener">Bladi, 2 décembre 2025</a> ; <a href="https://www.hespress.com/1705262-1705262.html" target="_blank" rel="noopener">Hespress, 22 février 2026</a>\','
+    'exp:\'Source : <a href="https://www.ela.europa.eu/en/news/driving-and-rest-rules-and-compulsory-tachographs-apply-light-commercial-vehicles-cross-border" target="_blank" rel="noopener">Autorité européenne du travail, 24 juin 2026</a>\'},'
     'Y=[-3,2.2,-2];'
-    'return{id:"lengths",kick:"Choisis ta traversée",eyebrow:"Premier pas",title:["Trois façons","<em>de traverser.</em>"],'
-    'lede:"Les transporteurs passent par la mer, par le détroit, ou font toute la route. Choisis d’abord la traversée, puis le trajet.",'
-    'more:\'<p class="stop-sub">Par la mer, le van embarque à Marseille. Par le détroit, il traverse la France et l’Espagne, '
-    'puis prend un ferry court. La grande route part du nord de l’Europe et va jusqu’au Souss.</p>'
-    '<ul class="stop-tags" aria-label="Sur chaque trajet"><li>La date affichée</li><li>Le prix affiché</li>'
-    '<li>Le contact direct</li><li>Gratuit</li></ul>\','
+    'return{id:"lengths",kick:"Le métier a changé",eyebrow:"Le métier",title:["Le métier","<em>a changé.</em>"],'
+    'lede:"Les règles se durcissent aux ports et sur la route. Elles pèsent sur tout le monde, et elles avantagent celui qui est en règle et qui peut le montrer.",'
+    'more:\'<p class="stop-sub">En face, les familles cherchent la même chose depuis toujours : quelqu’un de confiance. '
+    'Aujourd’hui, elles le trouvent par un cousin, un voisin, un courtier. Drari le montre à tous.</p>\','
     'flip:!0,cards:["day","multi","exp"].filter(s=>t[s].length).map((s,b)=>({cat:x.cats[s],paper:!0,'
-    'html:\'<p class="pc-top"><span class="pc-tag" style="--tilt:\'+Y[b%3]+"deg;--tag-ink:"+(s==="multi"?"#1B2230":"#F6EFE3")'
+    'html:\'<p class="pc-top"><span class="pc-tag" style="--tilt:\'+Y[b%3]+"deg;--tag-bg:"+TB[s]+";--tag-ink:"+(s==="multi"?"#1B2230":"#F6EFE3")'
     '+\'"><span>\'+r(x.cats[s].name)+\'</span></span><span class="pc-n">0\'+(b+1)+\' / 03</span></p>'
-    '<p class="pc-range">\'+r(R[s])+\'</p><p class="pc-count"><b>\'+t[s].length+"</b> "+(t[s].length===1?"trajet":"trajets")'
-    '+\' pour commencer</p><p class="pc-line">\'+r(L2[s])+\'</p><ul class="pc-facts">\'+X[s].map(V=>"<li>"+r(V)+"</li>").join("")'
-    '+\'</ul><p class="pc-from"><span>Inscription</span><b>Gratuite</b><span>pour tous</span></p>\'}))}}'
+    '<p class="pc-routes">\'+t[s].map(V=>r(V.name)).join(", ")+\'</p><p class="pc-range">\'+r(R[s])+\'</p>'
+    '<p class="pc-line pc-rule">\'+RU[s]+\'</p><p class="pc-src">\'+SR[s]+\'</p>'
+    '<p class="pc-from">Sur ta carte Drari, tu pourras montrer que tu es en règle.</p>\'}))}}'
 )
 
-# 02 · Inclus (dans le template : « What's in the pocket »). L'ordre suit les objets 3D :
-# la carte pliée, une personne, une tente, un van, un ticket.
+# v0.5 · 02 · Inclus. L'ordre suit les objets 3D : la carte pliée, une personne, une tente, un van, un ticket.
+# « Les familles la verront » : au futur, le site des familles n'est pas encore ouvert. Jamais « vérifié ».
 SEC_J = (
     'function j(){const l=['
-    '["Le trajet, sur une carte","Ta route, tes dates et ton prix sur une seule fiche. Les familles la voient avant de t’appeler.","Une carte par transporteur",x.accent||"#D63B2F"],'
-    '["Le contact direct","Les familles t’appellent ou t’écrivent. Pas d’intermédiaire entre vous.","Toi et la famille",x.cats.day.color],'
-    '["Tes points de collecte","Les villes où tu prends les colis, et celles où tu livres.","Au départ et à l’arrivée",x.cats.multi.color],'
-    '["Ce que ton van prend","Colis, valises, électroménager, meubles : tu dis ce que tu acceptes.","Colis ou déménagement",x.cats.exp.color],'
-    '["Gratuit pour tous","Ni abonnement ni commission au lancement, pour toi comme pour les familles.","Pour toi et pour elles","#B48A5C"]],'
+    '["Le trajet, sur une carte","Ta route, tes dates et ton prix sur une seule fiche. Les familles la verront avant de t’appeler.","Une carte par transporteur",x.accent||"#D63B2F","#B3312A","#F6EFE3"],'
+    '["Le contact direct","Les familles t’appelleront ou t’écriront. Pas d’intermédiaire entre vous.","Toi et la famille",x.cats.day.color,"#3F6B44","#F6EFE3"],'
+    '["Tes points de collecte","Les villes où tu prends les colis, et celles où tu livres.","Au départ et à l’arrivée",x.cats.multi.color,"#D2A23A","#1B2230"],'
+    '["Ce que ton van prend","Colis, valises, électroménager, meubles : tu dis ce que tu acceptes.","Colis ou déménagement",x.cats.exp.color,"#2F5F8F","#F6EFE3"],'
+    '["Ta carte, gratuite","Ta carte est gratuite. Pas de commission sur tes clients : l’argent du transport reste entre toi et la famille.","","#B48A5C","#B48A5C","#1B2230"]],'
     'g=[-2.6,2,-1.8,2.4,-2.2];'
     'return{id:"pocket",kick:"Ce qui est inclus",eyebrow:"Ce que Drari te donne",lead:!0,orb:!0,'
-    'title:["Tout ce qu’il faut","pour partir <em>plein.</em>"],'
-    'lede:"Cinq choses pour chaque transporteur inscrit, quel que soit ton trajet. La carte n’est que la première.",'
+    'title:["Tout ce qu’il faut","<em>pour qu’on te trouve.</em>"],'
+    'lede:"Cinq choses sur ta carte, quel que soit ton trajet.",'
     'more:\'<p class="stop-sub">Drari met en relation, c’est tout. Le prix, la date et les conditions se fixent entre toi et la famille, avant le départ.</p>\','
-    'cards:l.map(([c,m,i,h],d)=>({cat:{color:h},paper:!0,'
-    'html:\'<p class="pc-top"><span class="pc-tag" style="--tilt:\'+g[d]+"deg;--tag-ink:"+(d===2?"#1B2230":"#F6EFE3")'
-    '+\'"><span>\'+r(c)+\'</span></span><span class="pc-n">0\'+(d+1)+\' / 05</span></p><p class="pc-range">\'+r(i)'
-    '+\'</p><p class="pc-line pc-what">\'+r(m)+"</p>"}))}}'
+    'cards:l.map(([c,m,i,h,tb,ti],d)=>({cat:{color:h},paper:!0,'
+    'html:\'<p class="pc-top"><span class="pc-tag" style="--tilt:\'+g[d]+"deg;--tag-bg:"+tb+";--tag-ink:"+ti'
+    '+\'"><span>\'+r(c)+\'</span></span><span class="pc-n">0\'+(d+1)+\' / 05</span></p>\'+(i?\'<p class="pc-range">\'+r(i)+\'</p>\':"")'
+    '+\'<p class="pc-line pc-what">\'+r(m)+"</p>"}))}}'
 )
 
 # 03 · Transporteurs (dans le template : 8 guides avec photos). Ici, 5 cartes d'exemple,
@@ -67,42 +69,42 @@ SEC_T = (
     '],M=[],O=(t,a)=>""'
 )
 
+# v0.5 · 03 · Ta carte : les 3 étapes, puis les 5 cartes d'exemple (marquées « Exemple »), puis le bouton.
 SEC_I = (
-    'function I(){const t=[-2.2,1.6,-1.2,2.4,1.8,-2.6,1.1,-1.6],n=\'<ul class="pols">\'+T.map((e,p)=>{'
+    'function I(){const t=[-2.2,1.6,-1.2,2.4,1.8,-2.6,1.1,-1.6],'
+    'st=\'<ol class="dr-steps">\'+['
+    '"Tu inscris ton trajet : ta route, tes mois de départ, ton prénom et ton numéro.",'
+    '"On te rappelle pour préparer ta carte avec toi : tes dates, ton prix, ce que tu prends.",'
+    '"Ta carte sera en ligne quand le site des familles ouvrira. Elles t’appelleront en direct."'
+    '].map((s,i)=>\'<li><b aria-hidden="true">\'+(i+1)+"</b><p>"+s+"</p></li>").join("")+"</ol>",'
+    'n=st+\'<ul class="pols">\'+T.map((e,p)=>{'
     'const o=e.key?u(e.key):null,l=o?y(o):x.cats.day,g=o?o.name:"";'
     'return\'<li class="pg" data-k="\'+p+\'" style="--tilt:\'+t[p%t.length]+"deg;--cat:"+l.color+\'"><figure class="pol-frame">'
-    '<div class="pol-photo">\'+W(e,p,l.color)+O(e,p)+"</div><figcaption><b>"+r(e.name)+"</b><span>"+r(e.from)'
+    '<div class="pol-photo">\'+W(e,p,l.color)+O(e,p)+\'<span class="pol-ex">Exemple</span></div><figcaption><b>\'+r(e.name)+"</b><span>"+r(e.from)'
     '+\'</span></figcaption></figure><div class="pol-text"><p class="pol-trek"><i></i>\'+r(g)+\'</p><p class="pol-why">“\'+r(e.why)'
     '+\'”</p><p class="pol-line">\'+r(e.line)+\'</p><div class="pol-foot"><p class="pol-stats"><span><b>Nouveau</b> sur Drari</span></p>'
     '<p class="pol-off"><em>Langues</em>\'+r(e.off)+"</p></div></div></li>"}).join("")+"</ul>";'
-    'return{id:"guides",kick:"Les transporteurs",eyebrow:"Qui transporte",flow:!0,title:["Ta carte,","<em>à cette place.</em>"],'
-    'lede:"Drari commence par les transporteurs. Chaque inscrit aura sa carte, comme celles-ci : son trajet, ses départs, '
-    'ce qu’il prend. Ces cinq cartes sont des exemples, elles attendent un nom.",pols:n,cards:[]}}'
+    'return{id:"guides",kick:"Ta carte",eyebrow:"Ta carte",flow:!0,cls:"dr-free",title:["Ta carte,","<em>à cette place.</em>"],'
+    'lede:"Drari commence par les transporteurs. Chaque inscrit aura sa carte, comme celles-ci : son trajet, ses départs, '
+    'ce qu’il prend. Ces cinq cartes sont des exemples, elles attendent un nom.",pols:n,cards:[],'
+    'after:\'<div class="dr-after"><a class="dr-cta" href="#ticket" data-cta>Inscrire mon trajet<i aria-hidden="true">→</i></a></div>\'}}'
 )
 
-# 05 · FAQ (le rendu est fait par sections/faq.js, les questions viennent d'ici)
+# v0.5 · 05 · FAQ : les 9 questions des transporteurs (le rendu est fait par sections/faq.js, les questions viennent d'ici).
+# Retirées (pour la landing n° 2, familles) : « Quand faut-il éviter de partir ? », « Qu'est-ce que je prépare ? », « Et la douane ? ».
 SEC_Q = (
     'function Q(){const c=['
-    '["C’est vraiment gratuit ?","Oui. Au lancement, Drari ne prend rien : ni abonnement, ni commission, pour les transporteurs comme pour les familles."],'
-    '["Qui fixe le prix ?","Le transporteur. Il affiche son prix sur son trajet, et vous vous mettez d’accord avant le départ."],'
-    '["Drari transporte mes affaires ?","Non. Drari met en relation. Ce sont les transporteurs qui chargent, traversent et livrent."],'
-    '["Comment je m’inscris comme transporteur ?","Remplis le ticket en bas de la page : ton trajet, tes mois de départ, ton prénom et un moyen de te joindre."],'
-    '["Combien de temps dure la traversée ?","Algésiras - Tanger Med : 1 h 30 (DFDS). Almería - Nador : 7 à 11 h (Ferryhopper). '
-    'Marseille - Tunis : 22 à 26 h (Ferryhopper). Marseille - Oran : 28 à 29 h (aFerry)."],'
-    '["Quand faut-il éviter de partir ?","L’été, quand la diaspora rentre au pays. Pour le Maroc, c’est l’opération Marhaba : '
-    'en 2026, du 10 juin au 15 septembre (maroc.ma)."],'
-    '["Qu’est-ce que je prépare ?","La liste de ce que tu envoies, des cartons solides et fermés, et le numéro de la personne qui reçoit."],'
-    '["Et la douane ?","Chaque pays a ses règles sur ce qui peut entrer. Demande au transporteur ce qu’il accepte, et garde la liste de ce que tu envoies."]'
+    '["C’est vraiment gratuit ?","Ta carte, oui : ta route, tes dates, ton prix et les demandes des familles. Les options Pro et Pro+ sont payantes, et c’est toi qui choisis. Pas de commission sur tes clients."],'
+    '["Qui fixe le prix ?","Toi. Drari ne fixe aucun prix. Tu affiches ton prix au kilo ou à la pièce, et tu te mets d’accord avec la famille avant le départ."],'
+    '["Drari s’occupe des colis ?","Non. Drari met en relation. C’est toi qui charges, traverses et livres, à ton prix et à tes conditions."],'
+    '["Comment je m’inscris ?","Tu remplis le ticket en bas de la page : ton trajet, tes mois de départ, ton prénom et ton numéro. On te rappelle pour préparer ta carte."],'
+    '["Qui voit mon numéro ?","Pour l’instant, personne d’autre que Drari : il sert à te rappeler pour préparer ta carte. Ensuite, il ne sert qu’à la mise en relation avec les familles. Il n’est ni vendu, ni prêté."],'
+    '["Faut-il être déclaré ?","Drari est fait pour les transporteurs en règle. Ce qu’il faut pour l’être (registre, licence, assurance) sera expliqué sur le site."],'
+    '["Vous allez prendre une commission ?","Non. Drari vit des options Pro et Pro+, que tu prends seulement si tu veux. Si les conditions changent un jour, tu le sauras au moins 15 jours avant."],'
+    '["Quand les familles envoient-elles le plus ?","Au moment du ramadan, d’après les transporteurs cités par Hespress (22 février 2026). Le reste de l’année, ça dépend des trajets : c’est toi qui connais tes mois forts."],'
+    '["Combien de temps dure la traversée ?","Algésiras - Tanger Med : 1 h 30 (DFDS). Almería - Nador : 7 à 11 h (Ferryhopper). '
+    'Marseille - Tunis : 22 à 26 h (Ferryhopper). Marseille - Oran : 28 à 29 h (aFerry)."]'
     '];if(window.FAQ_MAP)return window.FAQ_MAP.def({T:f,catOf:y,esc:r,fmt:k,PAL:x,faq:c});'
-    'return{id:"ready",kick:"Des questions ?",title:["Combien,","<em>comment, quand.</em>"],lede:"Les questions qu’on nous pose le plus.",'
+    'return{id:"ready",kick:"Des questions ?",title:["Combien,","<em>comment, quand.</em>"],lede:"Les questions que posent les transporteurs.",'
     'more:\'<div class="faq">\'+c.map(([i,h])=>"<details><summary>"+r(i)+"</summary><p>"+h+"</p></details>").join("")+"</div>",cards:[]}}'
 )
-
-MONTHS_FR_SHORT = '["JAN","FÉV","MARS","AVR","MAI","JUIN","JUIL","AOÛT","SEPT","OCT","NOV","DÉC"]'
-MONTHS_FR = '["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"]'
-MONTHS_FR_CAP = '["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"]'
-
-VAN_ICON = ('<svg viewBox="0 0 24 40" aria-hidden="true"><path d="M2.5 31 V18.5 Q2.5 15 6 15 H14.5 Q17.4 15 18.8 17.6 L21.5 23 V31 Z"/>'
-            '<circle cx="7.2" cy="32" r="3"/><circle cx="17.2" cy="32" r="3"/></svg>')
-BUBBLE_ICON = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 17.6 L4 21 L7.7 19.7 A8.6 8.6 0 1 0 5.2 17.6Z" '
-               'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>')

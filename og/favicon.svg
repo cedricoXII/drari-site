@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>Drari</title>
+  <rect width="48" height="48" rx="10" fill="#0A1019"/>
+  <g transform="translate(2.2 5.4) scale(0.92)">
+    <path d="M2 10 L16.5 6 L16.5 35 L2 39 Z" fill="#F4EEE3"/>
+    <path d="M16.5 6 L31 10 L31 39 L16.5 35 Z" fill="#E2D2B4"/>
+    <path d="M31 10 L45.5 6 L45.5 35 L31 39 Z" fill="#F4EEE3"/>
+    <path d="M7 31 C 14 29, 15 22, 22 21 S 33 18, 38 13.5" fill="none" stroke="#C8432B" stroke-width="2.2" stroke-dasharray="3 2.2" stroke-linecap="round"/>
+    <circle cx="38.6" cy="12.6" r="3.6" fill="#C8432B"/>
+  </g>
+</svg>

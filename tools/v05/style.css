@@ -1,0 +1,262 @@
+/* Drari v0.5 : feuille de style placée en tête du <body>, donc après toutes les feuilles que les modules ajoutent
+   dans le <head> : à sélecteur égal, elle passe devant. Les sélecteurs par id (#drTop, #drFo, #landing, #foot)
+   passent devant les règles des modules quoi qu'il arrive.
+   Règles : H1 36 → 56 px, H2 30 → 44 px, texte 16 px au téléphone, champs 16 px, étiquettes 12 px au moins,
+   boutons 14 à 16 px, interligne 1,5, contraste 4,5:1 pour les petits textes, zones à toucher de 44 px au moins. */
+
+html,body{overflow-x:clip;}
+html.hero-on,html.hero-on body{background:#0A1019;}
+body{-webkit-tap-highlight-color:transparent;}
+.sr-only{position:absolute !important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;}
+#finaleLine,#bookPanel,.strip{display:none !important;}
+.hero-exit{display:none !important;}
+#scene{opacity:0;transition:opacity .9s ease;}
+html.dr-3d #scene{opacity:1;}
+html.dr-rm #scene{transition:none;}
+
+/* ---------- le bouton principal : « Inscrire mon trajet », le même partout ---------- */
+.dr-cta{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:52px;padding:0 24px;border:0;border-radius:4px;background:#F3EEE4;color:#121A26;
+  font-family:var(--f-text,"Instrument Sans",system-ui,sans-serif);font-weight:600;font-size:16px;line-height:1.2;letter-spacing:0;text-decoration:none;text-transform:none;white-space:nowrap;
+  box-shadow:0 12px 26px -12px rgba(0,0,0,0.75);cursor:pointer;touch-action:manipulation;pointer-events:auto;transition:transform .15s ease, background-color .15s ease;}
+.dr-cta i{font-style:normal;color:#B3312A;font-size:18px;line-height:1;}
+.dr-cta:hover{background:#FFFFFF;transform:translateY(-1px);}
+.dr-cta:active{transform:scale(.98);}
+.dr-cta:focus-visible{outline:3px solid #E5483B;outline-offset:3px;}
+
+/* ---------- l'en-tête ---------- */
+#drTop{position:fixed;top:0;left:0;right:0;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:calc(8px + env(safe-area-inset-top)) max(var(--pad-x),env(safe-area-inset-right)) 8px max(var(--pad-x),env(safe-area-inset-left));
+  pointer-events:none;visibility:visible !important;color:var(--c-text,#E9EEF2);}
+#drTop > *{pointer-events:auto;}
+#drTop::before{content:'';position:absolute;left:0;right:0;top:0;height:100%;bottom:auto;z-index:-1;pointer-events:none;opacity:0;transition:opacity .25s ease;
+  background:rgba(10,16,25,0.985);box-shadow:0 1px 0 rgba(233,238,242,0.08), 0 10px 24px -14px rgba(0,0,0,0.9);}
+html.dr-scrolled #drTop::before{opacity:1;}
+#drTop .brand{display:inline-flex;align-items:center;gap:10px;min-height:48px;flex:none;color:var(--c-text,#E9EEF2);text-decoration:none;}
+#drTop .brand-mark{display:block;width:40px;height:34px;flex:none;margin:0;transform:perspective(100px) rotateY(-26deg) rotateX(8deg);transform-origin:50% 100%;}
+#drTop .brand-mark svg{display:block;width:100%;height:100%;overflow:visible;}
+#drTop .brand-name{font-family:var(--f-display,Unbounded,system-ui,sans-serif);font-weight:500;font-size:22px;line-height:1;letter-spacing:-0.02em;color:var(--c-text,#E9EEF2);}
+#bookTop{position:relative;display:inline-flex;align-items:center;gap:10px;min-height:48px;height:auto;padding:0 18px 0 16px;flex:none;transform:none;filter:none;border-radius:4px;
+  color:#121A26;font-family:var(--f-text,"Instrument Sans",system-ui,sans-serif);font-weight:600;font-size:15px;line-height:1.15;text-decoration:none;cursor:pointer;touch-action:manipulation;}
+#bookTop::before{content:'';position:absolute;inset:0;z-index:-1;border-radius:4px;background:#F3EEE4;filter:none;clip-path:none;box-shadow:0 8px 18px -10px rgba(0,0,0,0.8);transition:background-color .15s ease;}
+#bookTop::after{display:none;}
+#bookTop .bt-label{font-family:var(--f-text,"Instrument Sans",system-ui,sans-serif);font-weight:600;font-size:15px;letter-spacing:0;text-transform:none;color:#121A26;white-space:nowrap;}
+#bookTop .bt-ar{display:inline;font-family:var(--f-text,"Instrument Sans",system-ui,sans-serif);font-size:16px;color:#B3312A;margin:0;}
+#bookTop .dot{width:7px;height:7px;border-radius:50%;background:#D63B2F;box-shadow:none;}
+#bookTop:hover{transform:translateY(-1px);filter:none;}
+#bookTop:hover::before{background:#FFFFFF;clip-path:none;}
+#bookTop:focus-visible{outline:3px solid #E5483B;outline-offset:3px;}
+#bookTop.nav-on{transform:none;}
+#bookTop.nav-on::before{background:#B3312A;}
+#bookTop.nav-on .bt-label,#bookTop.nav-on .bt-ar{color:#FFF8EE;}
+#bookTop.nav-on .dot{background:#FFF8EE;}
+
+/* le menu : onglets en papier sur ordinateur, un bouton sur téléphone */
+#drTop .navx{z-index:2;}
+#drTop .nt{font-size:12px;letter-spacing:0.1em;padding:calc(var(--pad-y) + 4px) 13px 11px;}
+#drTop .nt b{font-size:12px;color:rgba(27,34,48,0.7);}
+#drTop .nt.on{background-color:#B3312A;color:#FFF8EE;}
+#drTop .nt.on b{color:rgba(255,248,238,0.85);}
+#drTop .nt:focus-visible,#drTop .nt-cur:focus-visible{outline:3px solid #E5483B;outline-offset:2px;}
+@media (max-width:1320px){ #drTop .nt b{display:none;} #drTop .nt{padding-left:12px;padding-right:12px;} }
+@media (max-width:900px){
+  #drTop .navx{position:relative;left:auto;right:auto;top:auto;margin-left:auto;flex:none;display:flex;flex-direction:column;align-items:flex-end;}
+  #drTop .nt-cur{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;min-width:48px;padding:0 12px;border-radius:4px;transform:none;
+    background:#B3312A;color:#FFF8EE;font-size:12px;letter-spacing:0.08em;box-shadow:0 8px 18px -10px rgba(0,0,0,0.8);}
+  #drTop .nt-cur.off{background:#E4DACA;color:#1B2230;}
+  #drTop .navx.open .nt-cur{transform:none;}
+  #drTop .nt-row{top:calc(68px + env(safe-area-inset-top));left:auto;right:max(var(--pad-x),env(safe-area-inset-right));margin-left:0;width:230px;}
+  #drTop .nt-row .nt{display:flex;align-items:center;min-height:48px;padding:0 16px;font-size:13px;letter-spacing:0.08em;}
+  #drTop .nt-row .nt b{display:inline;}
+}
+@media (max-width:520px){ #drTop .nt-cur span{display:none;} #drTop .nt-cur b{display:inline;font-size:13px;} }
+@media (max-width:760px){
+  #drTop{gap:6px;}
+  #bookTop{min-height:44px;padding:0 12px;}
+  #bookTop .bt-label{font-size:14px;}
+  #bookTop .bt-ar,#bookTop .dot{display:none;}
+}
+@media (max-width:374px){ #drTop .brand-name{display:none;} }
+
+/* ---------- le haut de page : en HTML, visible tout de suite, avant la 3D ---------- */
+#heroCopy{position:fixed;inset:0;left:0;top:0;width:auto;transform:none;visibility:visible !important;pointer-events:none;}
+#drFo{position:fixed;inset:0;color:var(--c-text,#E9EEF2);pointer-events:none;visibility:visible;opacity:1;}
+#drFo .fo-head{position:absolute;left:var(--pad-x);right:auto;top:clamp(104px,15vh,150px);width:min(640px,46vw);pointer-events:none;}
+#drFo .fo-head::before{content:'';position:absolute;z-index:-1;left:-160px;top:-90px;right:-80px;bottom:-110px;pointer-events:none;
+  background:radial-gradient(closest-side at 40% 50%, rgba(5,8,12,0.8) 0%, rgba(5,8,12,0.56) 58%, rgba(5,8,12,0) 100%);}
+#drFo .fo-head a{pointer-events:auto;}
+#drFo .dr-frame{position:relative;}
+#drFo .dr-kick{display:flex;align-items:center;gap:10px;margin:0;font-family:var(--f-label,"Martian Mono",monospace);font-stretch:var(--l-st,100%);font-size:13px;line-height:1.4;letter-spacing:0.14em;text-transform:uppercase;color:rgba(var(--c-text-rgb,233,238,242),0.84);}
+#drFo .dr-kick i{display:block;width:7px;height:7px;border-radius:50%;background:#E5483B;flex:none;}
+#drFo .dr-h1{margin:14px 0 0 -0.03em;font-family:var(--f-display,Unbounded,system-ui,sans-serif);font-weight:400;font-size:clamp(2.25rem,1.75rem + 2.5vw,3.5rem);line-height:1.08;letter-spacing:-0.025em;color:var(--c-text,#E9EEF2);text-wrap:balance;}
+#drFo .dr-h1 em{display:block;font-style:normal;color:#E5483B;}
+/* ordinateur : le titre sur 4 lignes, comme au téléphone, pour ne jamais passer sur le globe (1280 à 1440 px) */
+@media (min-width:761px){ #drFo .dr-h1{max-width:7.6em;} }
+#drFo .dr-lede{margin:18px 0 0;max-width:36ch;font-family:var(--f-text,"Instrument Sans",system-ui,sans-serif);font-size:clamp(1rem,.9rem + .5vw,1.125rem);line-height:1.5;color:rgba(var(--c-text-rgb,233,238,242),0.9);text-wrap:pretty;}
+#drFo .dr-go{margin:26px 0 0;}
+#drFo .dr-free{margin:12px 0 0;max-width:44ch;font-family:var(--f-text,"Instrument Sans",system-ui,sans-serif);font-size:14px;line-height:1.5;color:rgba(var(--c-text-rgb,233,238,242),0.82);}
+#drFo .dr-hint{display:flex;align-items:center;gap:10px;margin:22px 0 0;font-family:var(--f-label,"Martian Mono",monospace);font-stretch:var(--l-st,100%);font-size:12px;line-height:1.4;letter-spacing:0.14em;text-transform:uppercase;color:rgba(var(--c-text-rgb,233,238,242),0.74);}
+#drFo .dr-hint i{display:block;width:5px;height:5px;border-radius:50%;background:#E5483B;flex:none;}
+@keyframes drIn{from{opacity:0;transform:translate3d(0,16px,0);}to{opacity:1;transform:none;}}
+#drFo .dr-anim{animation:drIn .6s cubic-bezier(.2,.8,.2,1) both;}
+#drFo .dr-kick.dr-anim{animation-delay:.02s;} #drFo .dr-h1.dr-anim{animation-delay:.08s;} #drFo .dr-lede.dr-anim{animation-delay:.16s;}
+#drFo .dr-go.dr-anim{animation-delay:.24s;} #drFo .dr-free.dr-anim{animation-delay:.3s;} #drFo .dr-hint.dr-anim{animation-delay:.36s;}
+html.dr-rm #drFo .dr-anim{animation:none;}
+@media (prefers-reduced-motion: reduce){ #drFo .dr-anim{animation:none;} }
+@media (max-width:760px){
+  #drFo .fo-head{left:var(--pad-x);right:var(--pad-x);width:auto;top:calc(70px + env(safe-area-inset-top));}
+  #drFo .fo-head::before{left:calc(-1*var(--pad-x));right:calc(-1*var(--pad-x));top:-140px;bottom:-36px;
+    background:linear-gradient(to bottom, rgba(5,8,12,0.94) 0%, rgba(5,8,12,0.86) 72%, rgba(5,8,12,0) 100%);}
+  #drFo .dr-kick{font-size:12px;}
+  #drFo .dr-h1{margin-top:10px;}
+  #drFo .dr-lede{margin-top:12px;max-width:none;}
+  #drFo .dr-go{margin-top:18px;}
+  #heroCta{width:100%;}
+  #drFo .dr-free{margin-top:10px;}
+  #drFo .dr-hint{display:none;}
+}
+/* la fiche du trajet (à droite) et les flèches : textes plus grands, zones à toucher de 44 à 48 px */
+#drFo .fc-cat{font-size:12px;letter-spacing:0.12em;}
+#drFo .fc-meta{font-size:12px;letter-spacing:0.12em;color:rgba(var(--c-text-rgb),0.78);}
+#drFo .fc-sub{font-size:16px;}
+#drFo .fc-k{font-size:12px;letter-spacing:0.12em;color:rgba(var(--c-text-rgb),0.78);}
+#drFo .fc-k b{color:rgba(var(--c-text-rgb),0.92);}
+#drFo .fc-pin{font-size:12px;letter-spacing:0.1em;}
+#drFo .fc-line{font-size:15px;line-height:1.5;color:rgba(var(--c-text-rgb),0.84);}
+#drFo .fc-nav{gap:6px;}
+/* les 5 « dos de carte » (choisir un trajet) : 44 px de large au moins pour le doigt, numéro en 12 px */
+#drFo .fc-nav.sp-on .fc-num{min-width:44px;min-height:66px;display:flex;justify-content:center;align-items:flex-end;}
+#drFo .sp em{font-size:12px;letter-spacing:0.06em;}
+#drFo .fc-count{font-size:12px;color:rgba(var(--c-text-rgb),0.72);}
+#drFo .fo-ro .ro-nums button{min-width:44px;min-height:52px;display:flex;justify-content:center;align-items:flex-end;padding:0 0 2px;font-size:0;}
+#drFo .fo-ro .ro-nums .ro-n{display:none;}
+#drFo .fo-ro .ro-cat,#drFo .fo-ro .ro-alt .k,#drFo .fo-ro .ro-pin,#drFo .fo-ro .ro-tip{font-size:12px;letter-spacing:0.1em;}
+#drFo .fo-ro .ro-alt .k{color:rgba(var(--c-text-rgb),0.78);}
+#drFo .fo-ro .ro-name em{font-size:14px;}
+#drFo .fo-ro .ro-body{height:118px;}
+#drFo.fo-narrow .fo-arrow{width:48px;height:48px;margin:-24px 0 0 -24px;}
+@media (max-height:780px){ #drFo .fc-line{font-size:15px;} }
+
+/* ---------- la barre du bas, sur téléphone ---------- */
+.dr-bar{display:none;}
+@media (max-width:760px){
+  .dr-bar{display:block;position:fixed;left:0;right:0;bottom:0;z-index:20;
+    padding:10px max(12px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+    background:rgba(10,16,25,0.96);box-shadow:0 -1px 0 rgba(233,238,242,0.1), 0 -14px 26px -12px rgba(0,0,0,0.85);
+    transform:translateY(110%);visibility:hidden;transition:transform .25s ease, visibility 0s linear .25s;}
+  .dr-bar.on{transform:none;visibility:visible;transition:transform .25s ease, visibility 0s;}
+  .dr-bar .dr-cta{width:100%;}
+}
+html.dr-rm .dr-bar{transition:none !important;}
+
+/* ---------- les sections (01 à 06) ---------- */
+#landing .stop-kick{font-size:12px;}
+#landing .stop.lead .stop-kick .lk,#landing .stop.flow .stop-kick .lk{background:#B3312A linear-gradient(180deg, rgba(255,255,255,0.12), rgba(0,0,0,0.1));padding:10px 32px 10px 24px;}
+#landing .stop.lead .stop-kick span span,#landing .stop.flow .stop-kick span span{font-size:13px;letter-spacing:0.14em;}
+#landing .stop h2{font-size:clamp(1.875rem,1.5rem + 1.875vw,2.75rem);line-height:1.12;letter-spacing:-0.025em;text-wrap:balance;}
+#landing .stop h2 .ln > span{white-space:normal;}
+#landing .stop h2 em{color:#E5483B;}
+#landing .stop-lede{font-size:clamp(1rem,.9rem + .5vw,1.125rem);line-height:1.5;max-width:60ch;color:rgba(var(--c-text-rgb),0.9);}
+#landing .stop-sub{font-size:clamp(1rem,.95rem + .25vw,1.0625rem);line-height:1.55;max-width:60ch;color:rgba(var(--c-text-rgb),0.82);}
+#landing .stop.lead .stop-text{width:min(500px,36vw);}
+@media (min-width:761px){ #landing .stop.lead .stop-box::after{width:54vw;background:linear-gradient(to right, var(--c-room,#0A1019) 0%, rgba(10,16,25,0.94) 33vw, rgba(10,16,25,0.6) 42vw, rgba(10,16,25,0) 100%);} }
+#landing .stop.flow .stop-text{width:min(820px,88vw);}
+/* les cartes en papier des sections 01 et 02 */
+#landing .fcard.paper .fc-in{padding:22px 22px 20px;}
+#landing .fcard.paper .pc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin:4px 0 0;}
+#landing .fcard.paper .pc-tag{flex:0 1 auto;max-width:calc(100% - 60px);}
+#landing .fcard.paper .pc-tag span{background:var(--tag-bg,var(--cat)) linear-gradient(180deg, rgba(255,255,255,0.14), rgba(0,0,0,0.08));color:var(--tag-ink,#F6EFE3);
+  font-size:20px;line-height:1.12;white-space:normal;padding:10px 18px 9px 16px;}
+#landing .fcard.paper .pc-n{flex:none;padding-top:2px;font-size:12px;letter-spacing:0.12em;color:#3A4252;}
+#landing .fcard.paper .pc-routes{margin:16px 0 0;font-family:var(--f-display);font-weight:500;font-size:17px;line-height:1.3;letter-spacing:-0.01em;color:#121A26;text-wrap:balance;}
+#landing .fcard.paper .pc-range{margin:10px 0 0;font-size:12px;letter-spacing:0.12em;color:#3A4252;}
+#landing .fcard.paper .pc-line{margin:12px 0 0;font-size:15px;line-height:1.5;color:#2A3242;}
+#landing .fcard.paper .pc-line b{font-weight:700;color:#121A26;}
+#landing .fcard .pc-rule{display:block !important;}
+#landing .fcard.paper .pc-src{margin:10px 0 0;font-size:13px;line-height:1.45;color:#3A4252;overflow-wrap:anywhere;}
+#landing .fcard.paper .pc-src a{color:#121A26;text-decoration:underline;text-decoration-color:rgba(179,49,42,0.7);text-underline-offset:2px;pointer-events:auto;}
+#landing .fcard.paper .pc-from{display:block;margin:14px 0 0;padding-top:12px;border-top:1px dashed rgba(27,34,48,0.3);font-size:14px;line-height:1.45;color:#2A3242;}
+#landing .fcard.on .fc-in{pointer-events:auto;}
+/* 03 Ta carte : les 3 étapes, la mention « Exemple », le bouton */
+#landing .dr-steps{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:1080px;margin:0 auto 6vh;padding:0 calc(var(--pad-x) + 2vw);text-align:left;}
+#landing .dr-steps li{display:flex;gap:14px;align-items:flex-start;padding:16px 16px 18px;border:1px solid rgba(var(--c-text-rgb),0.16);border-radius:4px;background:rgba(var(--c-text-rgb),0.04);}
+#landing .dr-steps b{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#B3312A;color:#FFF8EE;font-family:var(--f-display);font-weight:500;font-size:16px;}
+#landing .dr-steps p{margin:5px 0 0;font-size:16px;line-height:1.5;color:rgba(var(--c-text-rgb),0.92);}
+#landing .pol-ex{position:absolute;left:8px;top:8px;z-index:2;padding:4px 8px 3px;background:#121A26;color:#F3EEE4;font-family:var(--f-label);font-stretch:var(--l-st,100%);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;transform:rotate(-3deg);}
+#landing .pol-frame figcaption span{font-size:12px;letter-spacing:0.12em;color:#3A4252;}
+#landing .pol-trek{font-size:12px;letter-spacing:0.12em;color:rgba(var(--c-text-rgb),0.8);}
+#landing .pol-why{font-size:16px;line-height:1.4;}
+#landing .pol-line{font-size:15px;line-height:1.5;color:rgba(var(--c-text-rgb),0.8);}
+#landing .pol-stats{font-size:14px;color:rgba(var(--c-text-rgb),0.8);}
+#landing .pol-off{font-size:14px;color:rgba(var(--c-text-rgb),0.8);}
+#landing .pol-off em{font-size:12px;letter-spacing:0.12em;}
+#landing .dr-after{display:flex;justify-content:center;padding:6vh 16px 0;}
+#landing .stop.dr-free .pol-stage{height:auto !important;}
+#landing .stop.dr-free .pol-pin{position:relative !important;top:auto !important;transform:none !important;}
+#landing .stop.dr-free .pg{grid-row:auto !important;grid-column:auto !important;z-index:auto !important;}
+#landing .stop.dr-free .pols{row-gap:32px;}
+@media (min-width:1100px){ #landing .stop.dr-free .pols{grid-template-columns:repeat(5,minmax(0,1fr));} }
+@media (min-width:761px) and (max-width:1099px){ #landing .stop.dr-free .pols{grid-template-columns:repeat(3,minmax(0,1fr));} }
+/* 05 FAQ */
+#landing .fq-b{min-height:48px;}
+#landing .fq-b b{font-size:12px;letter-spacing:0.12em;color:#B3312A;}
+#landing .fq-b span{font-size:clamp(16px,.95rem + .3vw,18px);line-height:1.35;}
+#landing .fq-a > p{font-size:clamp(16px,.95rem + .2vw,17px);line-height:1.55;color:#2E3644;}
+#landing .fq-b:focus-visible{outline:3px solid #B3312A;}
+#landing .faqmap .stop-lede{max-width:46ch;}
+#landing .stop.faqmap{overflow-x:clip;}
+/* les 5 épingles de la FAQ : des hauteurs différentes, pour que leurs étiquettes ne se recouvrent pas */
+#landing .fm-pin[data-k="4"]{--ph:64px;} #landing .fm-pin[data-k="2"]{--ph:112px;} #landing .fm-pin[data-k="3"]{--ph:160px;} #landing .fm-pin[data-k="1"]{--ph:208px;} #landing .fm-pin[data-k="0"]{--ph:256px;}
+#landing .fm-pin:not(.sm) .fm-stick{height:var(--ph,70px);}
+#landing .fm-pin:not(.sm) .fm-head{bottom:calc(var(--ph,70px) - 8px);}
+#landing .fm-pin:not(.sm) .fm-lab{bottom:calc(var(--ph,70px) + 8px);font-size:19px;}
+@media (max-width:760px){
+  #landing .dr-steps{grid-template-columns:1fr;gap:10px;padding:0 16px;margin-bottom:30px;}
+  #landing .fq-a > p{padding-left:30px;}
+  #landing .pols{column-gap:14px;}
+  #landing .pol-why{font-size:15px;}
+  #landing .pol-stats{font-size:13px;}
+}
+
+/* ---------- page simple : mouvement réduit, téléphone, ou pas de WebGL ----------
+   pas de section épinglée, pas de défilement « scrub » : les cartes s'empilent et se lisent normalement */
+html.dr-flat #landing .stop{height:auto !important;margin-top:0 !important;padding:0 0 9vh;}
+html.dr-flat #landing .stop-box{display:none !important;}
+html.dr-flat #landing .stop-text{position:relative !important;top:auto !important;width:100% !important;max-width:760px;align-self:center;margin:0 auto !important;padding:9vh max(16px,var(--pad-x)) 0 !important;text-align:left;}
+html.dr-flat #landing .stop-text::before{display:none !important;}
+html.dr-flat #landing .stop.flow .stop-lede{margin-left:0;}
+html.dr-flat #landing .stop-kick,html.dr-flat #landing h2 .ln > span,html.dr-flat #landing .stop-lede,html.dr-flat #landing .stop-more{opacity:1 !important;visibility:visible !important;transform:none !important;}
+html.dr-flat #landing .stop-cards{position:relative !important;inset:auto !important;display:grid !important;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:40px 18px;
+  width:100%;max-width:1080px;align-self:center;height:auto !important;margin:44px auto 0 !important;padding:0 max(24px,var(--pad-x)) 0 max(40px,var(--pad-x));pointer-events:auto;z-index:auto;}
+html.dr-flat #landing .stop-cards::before{display:none !important;}
+html.dr-flat #landing .fcard{position:relative !important;left:auto !important;right:auto !important;bottom:auto !important;top:auto !important;width:auto !important;visibility:visible !important;transform:none !important;z-index:auto;}
+html.dr-flat #landing .fcard .fc-in{opacity:1 !important;transform:none !important;transition:none !important;}
+html.dr-flat #landing .fcard .pc-line{display:block;}
+html.dr-flat #landing .fc-lead{display:none !important;}
+html.dr-flat #landing .pol-stage{height:auto !important;}
+html.dr-flat #landing .pol-pin{position:relative !important;top:auto !important;transform:none !important;}
+html.dr-flat #landing .pg{grid-row:auto !important;grid-column:auto !important;z-index:auto !important;}
+html.dr-flat #landing .pols{row-gap:28px;}
+html.dr-flat #landing .pol-frame{transform:perspective(1000px) rotate(var(--tilt)) !important;opacity:1 !important;transition:none !important;}
+html.dr-flat #landing .pol-text{transform:none !important;opacity:1 !important;transition:none !important;}
+html.dr-flat #landing .threads,html.dr-flat .hk{display:none !important;}
+html.dr-flat #landing .leg{height:0 !important;}
+html.dr-flat #landing .fq{transform:none !important;opacity:1 !important;transition:none !important;}
+html.dr-flat #landing .fm{--fold:0 !important;}
+html.dr-flat #landing .fm-stand{transform:rotateX(-90deg) scale(1) !important;transition:none !important;}
+html.dr-flat #landing .faqmap .pol-pin{display:block;}
+@media (min-width:761px){
+  /* FAQ en page simple sur grand écran : le titre reste aligné sur les questions, la carte à droite */
+  html.dr-flat #landing .faqmap .pol-pin{display:grid;}
+  html.dr-flat #landing .faqmap .stop-text{max-width:none;margin:0 !important;padding:9vh 0 0 !important;}
+}
+@media (max-width:760px){
+  html.dr-flat #landing .faqmap .fm{display:none !important;}
+  html.dr-flat #landing .stop-text{padding-top:7vh !important;}
+  html.dr-flat #landing .stop{padding-bottom:7vh;}
+  html.dr-flat #landing .stop-cards{gap:38px;padding:0 16px 0 34px;margin-top:40px !important;}
+}
+
+/* ---------- sans WebGL : le haut de page statique reste, les sections et le ticket sont construits sans 3D ---------- */
+html.no-webgl #heroCopy,html.no-webgl #drFo{position:absolute;}
+html.no-webgl #drFo .fo-side,html.no-webgl #drFo .fo-arrow{display:none !important;}
+html.no-webgl .stage{display:none;}

@@ -1,16 +1,17 @@
 """Les décors Drari : la camionnette à la place du randonneur, et les décors de la section 01.
 
-- sections/sections.js : le randonneur (fonction R) devient une camionnette chargée, roues qui tournent.
+- sections/sections.js : le randonneur (fonction R) devient une camionnette, roues qui tournent.
 - sections/stations.js : nouvelles formes en papier (ferry, rocher, maison, vagues) et décors de la section 01 :
   « par la mer » = un ferry sur les vagues, « par le détroit » = le rocher de Gibraltar, la ville et un petit ferry,
   « toute la route » = l'Atlas, une kasbah et une maison.
-- sections/footer.js : la tente et le feu deviennent une maison et la camionnette garée devant.
+- sections/footer.js : la tente et le feu deviennent une maison et la camionnette garée devant (en v0.5 : tools/v05/footer.js).
+v0.5 : plus de bagages sur le toit de la camionnette, ni dans la page ni sur la table en papier : le chargement sur le
+toit est interdit aux pros à Tanger Med et à Nador, la marque ne doit pas le montrer.
 """
 
 VAN_HIKER = (
     'function R(){const t=document.createElement("div");t.className="hk",t.setAttribute("aria-hidden","true"),'
     't.innerHTML=\'<svg viewBox="0 0 68 100"><ellipse class="sh" cx="34" cy="99" rx="30" ry="2.6"/><g class="fig"><g class="bd">'
-    '<rect x="9" y="51.5" width="13" height="7.5" rx="1"/><rect x="23.5" y="53.5" width="12" height="5.5" rx="1"/>'
     '<path d="M4 90 L4 63 Q4 59 8 59 L45 59 Q48 59 50 61.5 L57.5 71 L62.5 72.6 Q65 73.4 65 76.5 L65 90 Z"/>'
     '<path class="gl" d="M47.2 62.6 L52.6 62.6 L58.6 70.6 L47.2 70.6 Z"/><path class="ln" d="M30 61.5 L30 88"/>'
     '<rect class="lt" x="61.6" y="78" width="3.4" height="3.2" rx=".8"/></g>'
@@ -93,27 +94,17 @@ LENGTHS = [
      'T(e,{scene:n,x:o*1.95,z:-.45,w:.9,h:.7,col:"#EDE6D8",shape:d.house,paint:' + HOUSE_PAINT + ',seed:3.4})'),
 ]
 
-FOOT_CAMP_NEW = (
-    '<div class="fx-camp" aria-hidden="true"><svg viewBox="0 0 220 90">'
-    '<path class="fx-tent" d="M26 84 L26 40 L70 40 L70 30 L74 26 L96 26 L100 30 L100 84Z"/>'
-    '<path class="fx-door" d="M42 84 L42 64 Q49 54 56 64 L56 84Z"/><path class="fx-door" d="M80 38 L88 38 L88 48 L80 48Z"/>'
-    '<path class="fx-tent" d="M120 80 L120 62 Q120 57 125 57 L160 57 Q163 57 165 60 L172 69 L177 70.6 Q180 71.6 180 75 L180 80Z"/>'
-    '<circle class="fx-door" cx="133" cy="81" r="5.5"/><circle class="fx-door" cx="167" cy="81" r="5.5"/>'
-    '<circle class="fx-ball" cx="198" cy="30" r="8"/><path class="fx-ground" d="M10 86 L210 86"/></svg></div>'
-)
-
-# Le personnage en papier posé sur la table (main.js, fonction Ao) : une camionnette chargée,
+# Le personnage en papier posé sur la table (main.js, fonction Ao) : une camionnette (sans rien sur le toit),
 # debout sur le même socle que le randonneur du template.
 TABLE_VAN = (
     'function Ao(e){return function(t,o,n,l){'
     'const V=()=>{t.beginPath(),t.moveTo(o*.05,n*.76),t.lineTo(o*.05,n*.6),t.quadraticCurveTo(o*.05,n*.56,o*.1,n*.56),'
     't.lineTo(o*.62,n*.56),t.quadraticCurveTo(o*.66,n*.56,o*.69,n*.585),t.lineTo(o*.82,n*.66),t.lineTo(o*.9,n*.675),'
     't.quadraticCurveTo(o*.95,n*.685,o*.95,n*.71),t.lineTo(o*.95,n*.76),t.closePath()},'
-    'W=()=>{t.beginPath(),t.arc(o*.25,n*.765,o*.085,0,6.2832),t.arc(o*.75,n*.765,o*.085,0,6.2832)},'
-    'B=()=>{t.beginPath(),t.rect(o*.12,n*.495,o*.2,n*.066),t.rect(o*.35,n*.515,o*.18,n*.046)};'
-    'if(e==="shape"){V(),t.fill(),W(),t.fill(),B(),t.fill(),Z(t,o*.5,n*.8,n,l,o*.1,null),t.fillRect(o*.2,n*.79,o*.64,n*.05);return}'
+    'W=()=>{t.beginPath(),t.arc(o*.25,n*.765,o*.085,0,6.2832),t.arc(o*.75,n*.765,o*.085,0,6.2832)};'
+    'if(e==="shape"){V(),t.fill(),W(),t.fill(),Z(t,o*.5,n*.8,n,l,o*.1,null),t.fillRect(o*.2,n*.79,o*.64,n*.05);return}'
     'Z(t,o*.5,n*.8,n,0,o*.1,{body:"#E6DCC8",hi:"#FFFFFF",foot:"#D8CBB2"}),t.fillStyle="#E6DCC8",t.fillRect(o*.2,n*.79,o*.64,n*.05);'
-    't.fillStyle=p.red,V(),t.fill(),t.fillStyle=p.ochre,B(),t.fill(),'
+    't.fillStyle=p.red,V(),t.fill(),'
     't.fillStyle=p.paperHi,t.beginPath(),t.moveTo(o*.645,n*.59),t.lineTo(o*.71,n*.59),t.lineTo(o*.795,n*.66),t.lineTo(o*.645,n*.66),t.closePath(),t.fill(),'
     't.fillStyle=p.redDk,t.fillRect(o*.42,n*.57,o*.012,n*.18),'
     't.fillStyle=p.ink,W(),t.fill(),'

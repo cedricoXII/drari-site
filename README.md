@@ -21,6 +21,15 @@ Pour mettre en ligne une nouvelle version : mettre le numéro du nouveau commit 
 
 Les deux premiers scripts lisent ETOPO 10' converti en `.npz` (fichier non versionné, 45 Mo à l'origine).
 
+Depuis la v0.5 :
+
+- `tools/build.py` remplace aussi trois modules entiers du template par ceux de `tools/v05/` (le ticket `book.js`, la section « Gratuit ? » `price.js`, le pied de page `footer.js`) et retire la plongée « interior », qui n'était jamais affichée.
+- Les remplacements de la v0.5 sont dans `tools/patches_v05.py` (ajoutés à la fin de `tools/patches.py`). Un remplacement peut viser tout un bloc : `(("@range", début, fin), nouveau texte)`.
+- Le haut de page en HTML (`top.html`), sa feuille de style (`style.css`), le petit script lu avant la 3D (`boot.js`) et les balises du `<head>` (`head.html`) sont dans `tools/v05/`.
+- `tools/build.py` recopie aussi ces balises (titre, description, aperçu de lien) dans `aura/index.html`, entre `<!-- dr-head` et `<!-- /dr-head -->`.
+- `tools/make_globe_small.py` écrit `data/globe-sdf-1024.jpg` (la texture du globe en 1 024 × 512). À relancer seulement si la texture du template change.
+- L'image d'aperçu des liens et les icônes sont dans `og/` (adresses jsDelivr sur la branche `main` : elles ne marchent qu'une fois la branche fusionnée).
+
 ## Versions
 
 - v0.1 (commit `3d2c35a`) : copie du template Fold Line, telle quelle.
@@ -30,7 +39,9 @@ Les deux premiers scripts lisent ETOPO 10' converti en `.npz` (fichier non versi
 
 - v0.4 (commit `05185dd`) : décors Drari. Le randonneur devient une camionnette chargée (dans la page et sur la table en papier). Section 01 : un ferry sur la mer, le rocher de Gibraltar avec la médina de Tanger et un petit ferry, l'Atlas avec une kasbah. Pied de page : la maison et la camionnette garée.
 
-À faire : brancher l'envoi des formulaires, une vraie adresse email et les vrais comptes, puis la plongée dans le trajet (camionnette à la place du randonneur, ferry). En v0.2, les clés internes des trajets restent celles du template (`tongariro`, `inca`…), pour ne rien casser.
+- v0.5 (branche `v0.5`, pas encore de commit) : la page marche sur téléphone et mène à l'inscription. Le haut de page est écrit dans le HTML : on le lit tout de suite, la 3D arrive après. Un seul bouton, « Inscrire mon trajet » (en-tête, haut de page, après « Ta carte », et une barre en bas sur téléphone), qui mène au ticket. Sur téléphone, la page ne déborde plus de l'écran et les sections se suivent simplement sous le haut de page. Nouveaux textes : sections Le métier, Inclus, Ta carte, Gratuit ?, FAQ (9 questions), Inscription ; plus de carte postale. Le ticket est un vrai formulaire (Autre trajet, plusieurs mois, numéro de téléphone, email facultatif) ; il n'envoie toujours rien et le dit. Plus de coffres de toit sur les camionnettes. Aperçu de lien (WhatsApp, Facebook) avec l'image `og/drari-og.jpg`, dans `index.html` et dans la page Aura. Mouvement réduit : ni défilement lissé ni sections épinglées. Sans WebGL : tout reste lisible, en français. Textes de 12 px au moins, boutons de 44 px au moins. La page passe de 2,4 Mo à 1,4 Mo.
+
+À faire : brancher l'envoi des formulaires, une vraie adresse email et les vrais comptes, réserver le domaine de `og:url` (drari.eu), puis la plongée dans le trajet (camionnette à la place du randonneur, ferry ; ses modules sont retirés de la page depuis la v0.5, ils restent dans le template). En v0.2, les clés internes des trajets restent celles du template (`tongariro`, `inca`…), pour ne rien casser.
 
 ## Crédits
 
