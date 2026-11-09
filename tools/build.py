@@ -59,6 +59,27 @@ def drop_module(html, src):
     return html[: m.start(1)] + html[end:]
 
 
+# Polices : les sous-ensembles du modèle (121 signes) n'avaient ni à, ç, è, ê, ô, ù, û, ni « », ni l'espace fine.
+# Le navigateur prenait ces lettres dans une autre police (« prête » déformé). On met à la place les sous-ensembles
+# « latin » complets de fontsource (mêmes axes variables), rangés dans fonts/ (licence SIL OFL 1.1, fichiers LICENSE-*).
+FONTS = {
+    "Unbounded": "unbounded-latin-wght.woff2",
+    "Instrument Sans": "instrument-sans-latin-wght.woff2",
+    "Martian Mono": "martian-mono-latin-standard.woff2",
+}
+
+
+def swap_fonts(html):
+    import base64
+    for family, name in FONTS.items():
+        data = base64.b64encode(open(os.path.join(ROOT, "fonts", name), "rb").read()).decode("ascii")
+        pat = re.compile(r'(@font-face\{font-family:' + re.escape(family) + r';[^}]*?src:url\(data:font/woff2;base64,)'
+                         r'[A-Za-z0-9+/=]+(\) format\("woff2"\);unicode-range:U\+0000-00FF,)')
+        html, n = pat.subn(lambda m: m.group(1) + data + m.group(2), html)
+        assert n == 1, (family, n)
+    return html
+
+
 def main():
     html = open(BASE, encoding="utf-8").read()
     for src, path in DATA_MODULES.items():
@@ -88,6 +109,7 @@ def main():
     if errors:
         print("\n".join(errors))
         sys.exit(1)
+    html = swap_fonts(html)
     leftover = [s for s in ("Sam1983Aing", "Valmora", "Book the walk", "Day 1. The valley") if s in html]
     assert not leftover, leftover
     open(OUT, "w", encoding="utf-8").write(html)
